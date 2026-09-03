@@ -1,0 +1,40 @@
+### 1. Intentar crear un producto con el SKU "abc12" (Debe fallar - Formato inválido)
+POST http://localhost:3000/api/productos
+Content-Type: application/json
+ 
+{
+    "codigoSKU": "abc12",
+    "nombre": "Mouse",
+    "precio": 5000,
+    "stock": 5,
+    "categoria": "PERIFERICOS"
+}
+ 
+### 2. Crear un producto válido (Debe tener éxito, status 201)
+POST http://localhost:3000/api/productos
+Content-Type: application/json
+ 
+{
+    "codigoSKU": "TEC-123",
+    "nombre": "Teclado Mecánico",
+    "precio": 50000,
+    "stock": 10,
+    "categoria": "PERIFERICOS"
+}
+ 
+### 3. Intentar crear otro producto con el SKU "TEC-123" (Debe fallar - Ya existe)
+POST http://localhost:3000/api/productos
+Content-Type: application/json
+ 
+{
+    "codigoSKU": "TEC-123",
+    "nombre": "Otro Teclado",
+    "precio": 20000,
+    "stock": 15,
+    "categoria": "PERIFERICOS"
+}
+ 
+### 4. Intentar actualizar el precio del teclado a -500 (Debe fallar - Mínimo es 0)
+# ⚠️ IMPORTANTE: Cambia "ACA_VA_EL_ID" por el _id real que te devolvió la prueba 2
+PUT http://localhost:3000/api/productos/ACA_VA_EL_ID
+Content-Type: application/json

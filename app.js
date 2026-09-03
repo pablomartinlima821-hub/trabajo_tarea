@@ -2,9 +2,12 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import {conectarDB} from "./config/db.js";
+import productoRoutes from "./routes/producto.routes.js";
+import proveedorRoutes from "./routes/proveedor.routes.js";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -18,12 +21,17 @@ app.get("/api/health", (_req, res) => {
   res.status(200).json({ estado: "ok" });
 });
 
+app.use("/api/productos", productoRoutes);
+app.use("/api/proveedores", proveedorRoutes);
+
 app.use((_req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });
 });
 
-app.listen(port, () => {
-  console.log(`Servidor ejecutándose en el puerto ${port}`);
+conectarDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Servidor Express listo en http://localhost:${PORT}`);
+    });
 });
 
 export default app;
